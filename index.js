@@ -28,6 +28,12 @@ app.get('/stores', (req, res) => {
 })
 
 
+app.get('/stores/edit/:sid', (req, res) =>{
+    res.render('edit')
+
+
+})
+
 app.listen(port, () => {
     console.log(`Running on port ${port}`)
 })
