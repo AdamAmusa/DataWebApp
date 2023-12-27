@@ -27,11 +27,35 @@ var getStores = function () {
                 reject(error)
             })
     })
+}
 
+var getStorebySid = function(sid){
+    return new Promise((resolve, reject) => {
+    pool.query(`SELECT * FROM store WHERE sid = ?`, [sid])
+    .then((data) => {
+        resolve(data)
+    })
+    .catch(error => {
+        reject(error)
+    })
+})
+}
+
+
+var editEmployee = function(sid){
+    return new Promise((resolve, reject) => {
+        pool.query('UPDATE store SET ')
+            .then((data) => {
+                resolve(data)
+            })
+            .catch(error => {
+                reject(error)
+            })
+    })
 
 }
 
 
 
-module.exports = {getStores};
+module.exports = {getStores, getStorebySid};
 

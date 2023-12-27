@@ -1,1 +1,16 @@
 <h1>Edit Page</h1>
+<form action="/editStore" method="POST">
+    <% store.forEach((stores) => 
+    {%>
+    <label>SID</label>
+    <input name="sid" value="<%= store.sid %>" ></input>
+    <br>
+    <label>Location</label>
+    <input name="location" value="<%= store.location %>"></input>
+    <br>
+    <label>Manager ID</label>
+    <input name ="mgrid" value="<%= store.mgrid %>"></input>
+    <br>
+    <% }) %>
+    <input type="submit" value="submit"></input>
+</form>

@@ -28,11 +28,34 @@ app.get('/stores', (req, res) => {
 })
 
 
+
 app.get('/stores/edit/:sid', (req, res) =>{
-    res.render('edit')
+     const sid = req.params.sid;
+    console.log("sid:" + sid); 
+    index.getStorebySid(sid)
+
+    .then((data) => {
+        res.render('edit', {"store": data });
+    })
+    .catch((error) =>{
+        res.send(error)
+    })
 
 
 })
+
+
+app.post('/stores/edit/:sid', (req, res)=>{
+
+    index.editEmployee()
+    .then((data) =>{
+        res.send(data)
+    })
+    .catch((error) =>{
+        res.send(error)
+    })
+})
+
 
 app.listen(port, () => {
     console.log(`Running on port ${port}`)
