@@ -32,7 +32,6 @@ app.get('/stores', (req, res) => {
 app.get('/stores/edit/:sid', (req, res) => {
     const sid = req.params.sid;
     index.getStorebySid(sid)
-
         .then((data) => {
             res.render('edit', { "store": data });
         })
@@ -43,6 +42,18 @@ app.get('/stores/edit/:sid', (req, res) => {
 
 })
 
+
+app.get('/products', (req, res) =>{
+
+    index.getProducts()
+    .then((data) =>{
+        res.render( 'products', {"product": data})
+    })
+    .catch((error) => {
+        res.send(error)
+    })
+
+})
 
 app.post('/stores/edit/:sid', (req, res) => {
     console.log(req.body.sid);

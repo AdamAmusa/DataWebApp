@@ -1,0 +1,38 @@
+<style>
+    table, th, td{
+        border: 1px solid black;
+    }
+</style>
+
+ 
+
+<table>
+   <a href="">Add Store</a>
+    <tr>
+      <th>Product ID</th>
+      <th>Description</th>
+      <th>Store ID</th>
+      <th>Location</th>
+      <th>Price</th>
+    </tr>
+  <% product.forEach((products) => 
+      {%>
+      <tr>
+        <td><%= products.pid %></td>
+        <td><%= products.productdesc %></td>
+        <td><%= products.sid %></td>
+        <td><%= products.location %></td>
+        <td><%= products.price %></td>
+        <a href ="" value="delete"></a>
+        
+        
+        
+      </tr>
+      <% }) %>
+    </table>
+    <a href="/">Home</a>
+  
+  
+    <script>
+  
+    </script>
