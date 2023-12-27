@@ -33,6 +33,7 @@ var getStorebySid = function(sid){
     return new Promise((resolve, reject) => {
     pool.query(`SELECT * FROM store WHERE sid = ?`, [sid])
     .then((data) => {
+        console.log(data);
         resolve(data)
     })
     .catch(error => {

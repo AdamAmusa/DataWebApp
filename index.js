@@ -31,7 +31,6 @@ app.get('/stores', (req, res) => {
 
 app.get('/stores/edit/:sid', (req, res) =>{
      const sid = req.params.sid;
-    console.log("sid:" + sid); 
     index.getStorebySid(sid)
 
     .then((data) => {
