@@ -16,17 +16,27 @@ MongoClient.connect('mongodb://127.0.0.1:27017')
 
     var doesExist = function (value) {
         return new Promise((resolve, reject) => {
-            const query = { _id: new ObjectId(value) };
+            const query = { _id: value };
+            console.log("doesExist function" + value);
     
-            coll.findOne(query, (error, document) => {
-                if (error) {
+            coll.findOne(query)
+                .then((document) => {
+                    if (document) {
+                        // If a document is found, resolve with the document
+                        resolve(document);
+                    } else {
+                        // If no document is found, reject with an error
+                        reject();
+                    }
+                })
+                .catch((error) => {
+                    // Handle other errors
                     reject(error);
-                } else {
-                    resolve(document !== null);
-                }
-            });
+                });
         });
     };
+    
+    
     
 
 module.exports = {doesExist}

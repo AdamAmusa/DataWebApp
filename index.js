@@ -29,22 +29,22 @@ app.get('/stores', (req, res) => {
 
 
 
-app.get('/stores/edit/:sid', (req, res) =>{
-     const sid = req.params.sid;
+app.get('/stores/edit/:sid', (req, res) => {
+    const sid = req.params.sid;
     index.getStorebySid(sid)
 
-    .then((data) => {
-        res.render('edit', {"store": data });
-    })
-    .catch((error) =>{
-        res.send(error)
-    })
+        .then((data) => {
+            res.render('edit', { "store": data });
+        })
+        .catch((error) => {
+            res.send(error)
+        })
 
 
 })
 
 
-app.post('/stores/edit/:sid', (req, res)=>{
+app.post('/stores/edit/:sid', (req, res) => {
     console.log(req.body.sid);
     console.log(req.body.mgrid);
     console.log(req.body.location);
@@ -53,15 +53,22 @@ app.post('/stores/edit/:sid', (req, res)=>{
     const mgrid = req.body.mgrid;
     const location = req.body.location
 
-    
 
-    index.editEmployee(sid, mgrid, location)
-    .then((data) =>{
-        res.send(data)
-    })
-    .catch((error) =>{
-        res.send(error)
-    })
+
+            console.log("Is Managing statement");
+            index.editEmployee(sid, mgrid, location)
+                .then((data) => {
+               
+                    res.redirect('/stores')
+                })
+                .catch((error) => {
+                    res.send(mgrid + " is managing another store")
+                })
+       
+
+
+
+
 })
 
 

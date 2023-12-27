@@ -48,26 +48,32 @@ var getStorebySid = function (sid) {
 
 
 
+
 var editEmployee = function (sid, mgrid, location) {
     return new Promise((resolve, reject) => {
         pool.query(`SELECT * FROM store WHERE sid = ?`, [sid])
+       // console.log("In edit employee")
             .then((data) => {
                 const currLocation = data[0].location;
                 const currMgrid = data[0].mgrid;
-
+                
                 // Check if manager ID exists in MongoDB
                 mongoDAO.doesExist(mgrid)
                     .then((exists) => {
+                        
                         console.log("Document exists in MongoDB: " + exists);
 
                         if (location !== currLocation || mgrid !== currMgrid) {
+                            
                             // Update MySQL record
                             pool.query('UPDATE store SET location = ?, mgrid = ? WHERE sid = ?', [location, mgrid, sid])
+                            
                                 .then((updateResult) => {
                                     resolve('Record updated successfully');
                                 })
-                                .catch((updateError) => {
-                                    reject('Error updating MySQL record: ' + updateError);
+                                .catch((error) => {
+                                    
+                                    reject(mgrid + "is managing another store");
                                 });
                         } else {
                             // Values are the same, resolve without updating
