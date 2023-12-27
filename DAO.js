@@ -43,20 +43,36 @@ var getStorebySid = function(sid){
 }
 
 
-var editEmployee = function(sid){
+var editEmployee = function(sid, mgrid, location) {
     return new Promise((resolve, reject) => {
-        pool.query('UPDATE store SET ')
+        pool.query(`SELECT * FROM store WHERE sid = ?`, [sid])
             .then((data) => {
-                resolve(data)
+                const currLocation = data[0].location;
+                const currMgrid = data[0].mgrid
+
+                if(location !== currLocation || mgrid !==currMgrid ){
+                    pool.query('UPDATE store SET location = ?, mgrid = ? WHERE sid = ?', [location, mgrid, sid])
+                    .then((data) => {
+                        resolve(data);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+
+            } else {
+                // Values are the same, resolve without updating
+                resolve('No changes');
+             }
+                
             })
-            .catch(error => {
-                reject(error)
-            })
-    })
-
-}
-
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
 
 
-module.exports = {getStores, getStorebySid};
+
+
+module.exports = {getStores, getStorebySid, editEmployee};
 

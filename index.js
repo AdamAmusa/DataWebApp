@@ -45,8 +45,14 @@ app.get('/stores/edit/:sid', (req, res) =>{
 
 
 app.post('/stores/edit/:sid', (req, res)=>{
+    console.log(req.body.sid);
+    console.log(req.body.mgrid);
+    console.log(req.body.location);
 
-    index.editEmployee()
+    const sid = req.body.sid;
+    const mgrid = req.body.mgrid;
+    const location = req.body.location
+    index.editEmployee(sid, mgrid, location)
     .then((data) =>{
         res.send(data)
     })
