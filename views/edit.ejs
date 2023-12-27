@@ -1,15 +1,58 @@
-<h1>Edit Page</h1>
-<form action="/stores/edit/:sid" method="POST">
-    <% store.forEach((stores) => { %>
-        <label>SID</label>
-        <input name="sid" value="<%= stores.sid %>" readonly></input>
-        <br>
-        <label>Location</label>
-        <input name="location" value="<%= stores.location %>" minlength="1"></input>
-        <br>
-        <label>Manager ID</label>
-        <input name="mgrid" value="<%= stores.mgrid %>" maxlength="4"></input>
-        <br>
-    <% }) %>
-    <input type="submit" value="submit"></input>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Page</title>
+</head>
+<body>
+
+    <h1>Edit Page</h1>
+    <ul>
+        <li id="locationWarning">Location must have at least one character</li>
+    </ul>
+
+    <form action="/stores/edit/:sid" method="POST">
+        <% store.forEach((stores) => { %>
+            <label>SID</label>
+            <input name="sid" value="<%= stores.sid %>" readonly></input>
+            <br>
+            <label>Location</label>
+            <input name="location" id="locationInput" oninput="maxValue()" value="<%= stores.location %>" minlength="1"></input>
+            <br>
+            <label>Manager ID</label>
+            <input name="mgrid" id="mgrInput" oninput="maxValue()" value="<%= stores.mgrid %>" maxlength="4"></input>
+            <br>
+        <% }) %>
+        <input id="submitButton" type="submit" value="submit"></input>
+    </form>
+
+    <script>
+        var locationWarning = document.getElementById("locationWarning");
+        locationWarning.style.visibility = "hidden";
+        function maxValue() {
+            var locationInput = document.getElementById("locationInput");
+            var charlengthLocation = locationInput.value.length;
+
+            var mgrInput = document.getElementById("mgrInput");
+            var mgrLength = mgrInput.value.length;
+
+            var button = document.getElementById("submitButton");
+
+            if (charlengthLocation < 1) {
+                locationWarning.style.visibility = "visible";
+                button.disabled = true;
+            } else {
+                locationWarning.style.visibility = "hidden";
+            }
+
+            if (mgrLength < 4) {
+                button.disabled = true;
+            } else {
+                button.disabled = false;
+            }
+        }
+    </script>
+
+</body>
+</html>

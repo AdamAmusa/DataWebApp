@@ -52,6 +52,9 @@ app.post('/stores/edit/:sid', (req, res)=>{
     const sid = req.body.sid;
     const mgrid = req.body.mgrid;
     const location = req.body.location
+
+    
+
     index.editEmployee(sid, mgrid, location)
     .then((data) =>{
         res.send(data)

@@ -1,5 +1,7 @@
 var pool;
 var mySQL = require('promise-mysql')
+var mongoDAO = require('./MongoDAO')
+
 
 mySQL.createPool({
     connectionLimit: 3,
@@ -29,44 +31,57 @@ var getStores = function () {
     })
 }
 
-var getStorebySid = function(sid){
+var getStorebySid = function (sid) {
     return new Promise((resolve, reject) => {
-    pool.query(`SELECT * FROM store WHERE sid = ?`, [sid])
-    .then((data) => {
-        console.log(data);
-        resolve(data)
+        pool.query(`SELECT * FROM store WHERE sid = ?`, [sid])
+            .then((data) => {
+                console.log(data);
+                resolve(data)
+            })
+            .catch(error => {
+                reject(error)
+            })
     })
-    .catch(error => {
-        reject(error)
-    })
-})
 }
 
 
-var editEmployee = function(sid, mgrid, location) {
+
+
+
+var editEmployee = function (sid, mgrid, location) {
     return new Promise((resolve, reject) => {
         pool.query(`SELECT * FROM store WHERE sid = ?`, [sid])
             .then((data) => {
                 const currLocation = data[0].location;
-                const currMgrid = data[0].mgrid
+                const currMgrid = data[0].mgrid;
 
-                if(location !== currLocation || mgrid !==currMgrid ){
-                    pool.query('UPDATE store SET location = ?, mgrid = ? WHERE sid = ?', [location, mgrid, sid])
-                    .then((data) => {
-                        resolve(data);
+                // Check if manager ID exists in MongoDB
+                mongoDAO.doesExist(mgrid)
+                    .then((exists) => {
+                        console.log("Document exists in MongoDB: " + exists);
+
+                        if (location !== currLocation || mgrid !== currMgrid) {
+                            // Update MySQL record
+                            pool.query('UPDATE store SET location = ?, mgrid = ? WHERE sid = ?', [location, mgrid, sid])
+                                .then((updateResult) => {
+                                    resolve('Record updated successfully');
+                                })
+                                .catch((updateError) => {
+                                    reject('Error updating MySQL record: ' + updateError);
+                                });
+                        } else {
+                            // Values are the same, resolve without updating
+                            resolve('No changes');
+                        }
                     })
-                    .catch((error) => {
-                        reject(error);
+                    .catch((mongoError) => {
+                        // Manager ID doesn't exist in MongoDB
+                        reject('Manager ID does not exist in MongoDB');
                     });
-
-            } else {
-                // Values are the same, resolve without updating
-                resolve('No changes');
-             }
-                
             })
-            .catch((error) => {
-                reject(error);
+            .catch((mysqlError) => {
+                // Error querying MySQL database
+                reject('Error querying MySQL database: ' + mysqlError);
             });
     });
 };
@@ -74,5 +89,5 @@ var editEmployee = function(sid, mgrid, location) {
 
 
 
-module.exports = {getStores, getStorebySid, editEmployee};
+module.exports = { getStores, getStorebySid, editEmployee};
 
