@@ -48,7 +48,7 @@ var getStorebySid = function (sid) {
 var getProducts = function () {
 
     return new Promise((resolve, reject) => {
-        pool.query(`SELECT product_store.pid, product.productdesc, product_store.price, product_store.sid, store.location FROM product_store JOIN product ON product_store.pid = product.pid JOIN store ON product_store.sid = store.sid;`)
+        pool.query(`SELECT product.pid, product.productdesc, product_store.sid, store.location, product_store.price AS price FROM product LEFT JOIN product_store ON product.pid = product_store.pid LEFT JOIN store ON product_store.sid = store.sid`)
             .then((data) => {
                 resolve(data);
 
