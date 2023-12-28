@@ -55,6 +55,25 @@ app.get('/products', (req, res) =>{
 
 })
 
+
+
+
+app.get('/products/delete/:pid', (req, res) => {
+
+    const pid = req.params.pid;
+     console.log(pid);
+    index.deleteEmployee(pid)
+    .then((data) =>{
+        res.redirect('/products')
+    })
+    .catch((error) =>{
+        res.status(500).send(`<h1>Error Message:</h1> <br> <h1>${error.message}</h1>`);
+        
+    })
+    
+    
+})
+
 app.post('/stores/edit/:sid', (req, res) => {
     console.log(req.body.sid);
     console.log(req.body.mgrid);

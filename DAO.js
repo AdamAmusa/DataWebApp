@@ -111,6 +111,29 @@ var editEmployee = function (sid, mgrid, location) {
 
 
 
+var deleteEmployee = function(pid){
+    return new Promise((resolve, reject) => {
+        pool.query(`DELETE product FROM product LEFT JOIN product_store ON product.pid = product_store.pid LEFT JOIN store ON product_store.sid = store.sid WHERE product.pid = ? AND store.sid IS NULL`, [pid])
+        .then((result) =>{
+                const rows = result.affectedRows;
+                if (rows > 0) {
+                    resolve(`Successfully deleted product with pid of ${pid}`);
+                } else {
+                    reject(new Error(`${pid} is currently in stores and cannot be deleted`));
+                }
+        })
+        .catch((error) =>{
+            
+            reject(error);
+        })
 
-module.exports = { getStores, getStorebySid, editEmployee, getProducts};
+    })
+
+
+}
+
+
+
+
+module.exports = { getStores, getStorebySid, editEmployee, getProducts, deleteEmployee};
 

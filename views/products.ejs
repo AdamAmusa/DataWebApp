@@ -18,12 +18,12 @@
   <% product.forEach((products) => 
       {%>
       <tr>
-        <td><%= products.pid %></td>
+        <td name = "pid"><%= products.pid %></td>
         <td><%= products.productdesc %></td>
         <td><%= products.sid %></td>
         <td><%= products.location %></td>
         <td><%= products.price %></td>
-        <td><a href ="\">delete <%= products.productdesc %></a></td>
+        <td><a href ="/products/delete/<%= products.pid %>">delete <%= products.productdesc %></a></td>
         
         
         
