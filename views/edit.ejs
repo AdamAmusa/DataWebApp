@@ -1,58 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Page</title>
 </head>
+
 <body>
 
+    <!-- Header -->
     <h1>Edit Page</h1>
+
+    <!-- Warning for Location -->
     <ul>
         <li id="locationWarning">Location must have at least one character</li>
     </ul>
 
+    <!-- Form for Editing Stores -->
     <form action="/stores/edit/:sid" method="POST">
-        <% store.forEach((stores) => { %>
+        <!-- Loop through the store data (assuming you're using EJS or a similar template engine) -->
+        <% store.forEach((stores)=> { %>
+            <!-- SID Input (Read-only) -->
             <label>SID</label>
             <input name="sid" value="<%= stores.sid %>" readonly></input>
             <br>
+
+            <!-- Location Input -->
             <label>Location</label>
-            <input name="location" id="locationInput" oninput="maxValue()" value="<%= stores.location %>" minlength="1"></input>
+            <input name="location" id="locationInput" oninput="maxValue()" value="<%= stores.location %>"
+                minlength="1"></input>
             <br>
+
+            <!-- Manager ID Input -->
             <label>Manager ID</label>
             <input name="mgrid" id="mgrInput" oninput="maxValue()" value="<%= stores.mgrid %>" maxlength="4"></input>
             <br>
-        <% }) %>
-        <input id="submitButton" type="submit" value="submit"></input>
+            <% }) %>
+
+                <!-- Submit Button -->
+                <input id="submitButton" type="submit" value="submit"></input>
     </form>
 
+    <!-- JavaScript for Input Validation -->
     <script>
+        // Get reference to the location warning element
         var locationWarning = document.getElementById("locationWarning");
+        // Initially hide the location warning
         locationWarning.style.visibility = "hidden";
-        function maxValue() {
-            var locationInput = document.getElementById("locationInput");
-            var charlengthLocation = locationInput.value.length;
 
+        // Function to validate input values
+        function maxValue() {
+            // Get references to input elements
+            var locationInput = document.getElementById("locationInput");
             var mgrInput = document.getElementById("mgrInput");
+
+            // Get the lengths of the input values
+            var charlengthLocation = locationInput.value.length;
             var mgrLength = mgrInput.value.length;
 
+            // Get reference to the submit button
             var button = document.getElementById("submitButton");
 
+            // Check if the location has at least one character
             if (charlengthLocation < 1) {
+                // Show the location warning and disable the button
                 locationWarning.style.visibility = "visible";
                 button.disabled = true;
             } else {
+                // Hide the location warning
                 locationWarning.style.visibility = "hidden";
             }
 
+            // Check if the manager ID has a length less than 4
             if (mgrLength < 4) {
+                // Disable the button
                 button.disabled = true;
             } else {
+                // Enable the button
                 button.disabled = false;
             }
         }
     </script>
 
 </body>
+
 </html>

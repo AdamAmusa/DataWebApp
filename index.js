@@ -3,7 +3,7 @@ var app = express()
 var port = 3000;
 var index = require('./DAO.js')
 var mongo = require('./MongoDAO')
-const { ObjectId } = require('mongodb');
+
 
 
 app.set('view engine', 'ejs');
@@ -12,12 +12,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 
 
-
+//"home" page initialised as root page
 app.get('/', (req, res) => {
     res.render("home");
 })
 
-
+//loads store page with data from sql
 app.get('/stores', (req, res) => {
     index.getStores()
         .then((data) => {
@@ -31,7 +31,7 @@ app.get('/stores', (req, res) => {
 })
 
 
-
+//for edit page that loads "edit" page with data already loaded from sql in input bars
 app.get('/stores/edit/:sid', (req, res) => {
     const sid = req.params.sid;
     index.getStorebySid(sid)
@@ -45,6 +45,7 @@ app.get('/stores/edit/:sid', (req, res) => {
 
 })
 
+//manager get link which renders "managers" with data loaded from mongo
 app.get('/managers', (req, res) =>{
     
     mongo.listManagers()
@@ -58,6 +59,7 @@ app.get('/managers', (req, res) =>{
 
 })
 
+//add manager post method
 app.post('/managers/add', (req, res) =>{
     
    const id = req.body.mgrid;
@@ -78,7 +80,7 @@ app.get('/managers/add', (req, res) =>{
     res.render('addManager')
 })
 
-
+//products get render function which loads "products" page with data loaded from sql
 app.get('/products', (req, res) =>{
 
     index.getProducts()
@@ -93,7 +95,7 @@ app.get('/products', (req, res) =>{
 
 
 
-
+//delete product get function
 app.get('/products/delete/:pid', (req, res) => {
 
     const pid = req.params.pid;
@@ -110,6 +112,8 @@ app.get('/products/delete/:pid', (req, res) => {
     
 })
 
+
+//Edit store post method
 app.post('/stores/edit/:sid', (req, res) => {
     console.log(req.body.sid);
     console.log(req.body.mgrid);

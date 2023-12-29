@@ -1,10 +1,12 @@
 <h1>Add Manager</h1>
 
+<!-- Display warnings for validation rules -->
 <ul>
     <li id="managerWarning">Manager ID must be 4 characters</li>
     <li id="nameWarning">Name must be > 5 characters</li>
     <li id="salaryWarning">Salary must be between 30,000 and 70,000</li>
 </ul>
+
 <form action="/managers/add" method="POST">
         <label>Manager ID</label>
         <input name="mgrid" id="managerID" maxlength="4" required></input>
@@ -20,10 +22,13 @@
 </form>
 
 <script> 
+// JavaScript logic for form validation and disabling and enabling buttons
 var button = document.getElementById('button');
+//variables for toggling warnings from visible to invisible
 var mWarning = document.getElementById('managerWarning');
 var nWarning = document.getElementById('nameWarning');
 var sWarning = document.getElementById('salaryWarning');
+
     //Manager ID length logic
     document.getElementById('managerID').addEventListener('input', function(){
         var input = this.value;
@@ -55,6 +60,7 @@ var sWarning = document.getElementById('salaryWarning');
 
     });
 
+    //Salary length logic
     document.getElementById('Salary').addEventListener('input', function(){
         var input = this.value;
         var minValue = 30000;
