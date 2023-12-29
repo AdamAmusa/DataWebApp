@@ -12,7 +12,7 @@
         <br>
         <label>Salary</label>
         <input name="salary"></input>
-        <input type = "button" value="add"></input>
+        <input type = "button" name = "button"value="add"></input>
         
     
 </form>
@@ -23,7 +23,11 @@
         var minLength = parseInt(this.getAttribute('minlength'), 10);
 
         if(Input.length > minLength){
-
+            var button = document.getElementById('button');
+            button.disabled = true;
+        }
+        else{
+            button.disabled = false;
         }
 
     });
