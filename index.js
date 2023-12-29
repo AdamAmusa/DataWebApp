@@ -2,6 +2,7 @@ var express = require('express')
 var app = express()
 var port = 3000;
 var index = require('./DAO.js')
+var mongo = require('./MongoDAO')
 
 app.set('view engine', 'ejs');
 var bodyParser = require('body-parser')
@@ -42,6 +43,23 @@ app.get('/stores/edit/:sid', (req, res) => {
 
 })
 
+app.get('/managers', (req, res) =>{
+    
+    mongo.listManagers()
+    .then((data) =>{
+        res.render('managers' , {"manager": data})
+    })
+    .catch((error) =>{
+        
+        res.send(error);
+    })
+
+})
+
+app.get('/managers/add', (req, res) =>{
+    res.render('addManager')
+})
+
 
 app.get('/products', (req, res) =>{
 
@@ -67,7 +85,7 @@ app.get('/products/delete/:pid', (req, res) => {
         res.redirect('/products')
     })
     .catch((error) =>{
-        res.status(500).send(`<h1>Error Message:</h1> <br> <h1>${error.message}</h1>`);
+        res.status(500).send(`<h1>Error Message:</h1> <br> <h1>${error.message}</h1> <br> <a href="/">Home</a>`);
         
     })
     

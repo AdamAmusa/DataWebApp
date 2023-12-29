@@ -1,0 +1,30 @@
+<h1>Add Manager</h1>
+
+<ul>
+    <li name="managerWarning" style="display: none"></li>
+</ul>
+<form action="">
+        <label>Manager ID</label>
+        <input name="mgrid" minlength="4" required></input>
+        <br>
+        <label>Name</label>
+        <input name="name"></input>
+        <br>
+        <label>Salary</label>
+        <input name="salary"></input>
+        <input type = "button" value="add"></input>
+        
+    
+</form>
+
+<script>
+    document.getElementById('mgrid').addEventListener('input', function(){
+        var input = this.value;
+        var minLength = parseInt(this.getAttribute('minlength'), 10);
+
+        if(Input.length > minLength){
+
+        }
+
+    });
+</script>

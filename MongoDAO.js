@@ -12,7 +12,33 @@ MongoClient.connect('mongodb://127.0.0.1:27017')
     })
 
 
-   
+    //db.managers.find({})
+
+    var listManagers = function (){
+        return new Promise((resolve, reject) => {
+            const query = {};
+            const sort = {_id: 1}
+            coll.find(query).sort(sort).toArray()
+            .then((data) =>{
+                resolve(data);
+            })
+            .catch((error) =>{
+                reject(error);
+            })
+
+        })
+    }
+
+
+    var addManager = function(){
+        return new Promise((resolve, reject) => {
+            
+
+
+
+        })
+    }
+
 
     var doesExist = function (value) {
         return new Promise((resolve, reject) => {
@@ -39,4 +65,4 @@ MongoClient.connect('mongodb://127.0.0.1:27017')
     
     
 
-module.exports = {doesExist}
+module.exports = {doesExist, listManagers}
