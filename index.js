@@ -3,6 +3,8 @@ var app = express()
 var port = 3000;
 var index = require('./DAO.js')
 var mongo = require('./MongoDAO')
+const { ObjectId } = require('mongodb');
+
 
 app.set('view engine', 'ejs');
 var bodyParser = require('body-parser')
@@ -52,6 +54,22 @@ app.get('/managers', (req, res) =>{
     .catch((error) =>{
         
         res.send(error);
+    })
+
+})
+
+app.post('/managers/add', (req, res) =>{
+    
+   const id = req.body.mgrid;
+   const name = req.body.name;
+   const salary = req.body.salary;
+
+    mongo.addManager(id, name, salary)
+    .then((data) =>{
+       res.redirect('/managers')
+    })
+    .catch((error) =>{
+        res.status(500).send("Error: " + error.message);
     })
 
 })

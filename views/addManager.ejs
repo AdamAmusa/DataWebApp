@@ -5,7 +5,7 @@
     <li id="nameWarning">Name must be > 5 characters</li>
     <li id="salaryWarning">Salary must be between 30,000 and 70,000</li>
 </ul>
-<form action="">
+<form action="/managers/add" method="POST">
         <label>Manager ID</label>
         <input name="mgrid" id="managerID" maxlength="4" required></input>
         <br>
@@ -13,8 +13,8 @@
         <input name="name" id="Name" minlength="5"></input>
         <br>
         <label>Salary</label>
-        <input name="salary" type = "number" id="Salary" required></input>
-        <input type = "button"  id = "button" value="add" disabled></input>
+        <input name="salary" type = "number" id="Salary"></input>
+        <input type = "submit"  id = "button" value="add" disabled></input>
         
     
 </form>
@@ -50,7 +50,7 @@ var sWarning = document.getElementById('salaryWarning');
         }
         else{
             nWarning.style.visibility = "visible";
-            button.disabled = true;
+            
         }
 
     });
@@ -62,7 +62,7 @@ var sWarning = document.getElementById('salaryWarning');
 
         if(input >= minValue && input <= maxValue){
             sWarning.style.visibility = "hidden";
-            
+            button.disabled = false;
         }
         else{
             sWarning.style.visibility = "visible";
