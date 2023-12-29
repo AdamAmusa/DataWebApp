@@ -1,34 +1,75 @@
 <h1>Add Manager</h1>
 
 <ul>
-    <li name="managerWarning" style="display: none"></li>
+    <li id="managerWarning">Manager ID must be 4 characters</li>
+    <li id="nameWarning">Name must be > 5 characters</li>
+    <li id="salaryWarning">Salary must be between 30,000 and 70,000</li>
 </ul>
 <form action="">
         <label>Manager ID</label>
-        <input name="mgrid" minlength="4" required></input>
+        <input name="mgrid" id="managerID" maxlength="4" required></input>
         <br>
         <label>Name</label>
-        <input name="name"></input>
+        <input name="name" id="Name" minlength="5"></input>
         <br>
         <label>Salary</label>
-        <input name="salary"></input>
-        <input type = "button" name = "button"value="add"></input>
+        <input name="salary" type = "number" id="Salary" required></input>
+        <input type = "button"  id = "button" value="add" disabled></input>
         
     
 </form>
 
-<script>
-    document.getElementById('mgrid').addEventListener('input', function(){
+<script> 
+var button = document.getElementById('button');
+var mWarning = document.getElementById('managerWarning');
+var nWarning = document.getElementById('nameWarning');
+var sWarning = document.getElementById('salaryWarning');
+    //Manager ID length logic
+    document.getElementById('managerID').addEventListener('input', function(){
+        var input = this.value;
+        var maxlength = parseInt(this.getAttribute('maxlength'), 10);
+        console.log(input.length + " " + maxlength)
+
+        if(input.length === maxlength){
+            mWarning.style.visibility = "hidden";
+            button.disabled = false;
+        }
+        else{
+            mWarning.style.visibility = "visible";
+            button.disabled = true;
+        }
+    });
+    //Name length logic
+    document.getElementById('Name').addEventListener('input', function(){
         var input = this.value;
         var minLength = parseInt(this.getAttribute('minlength'), 10);
 
-        if(Input.length > minLength){
-            var button = document.getElementById('button');
-            button.disabled = true;
+        if(input.length > minLength){
+            nWarning.style.visibility = "hidden";
+            
         }
         else{
-            button.disabled = false;
+            nWarning.style.visibility = "visible";
+            button.disabled = true;
         }
 
     });
+
+    document.getElementById('Salary').addEventListener('input', function(){
+        var input = this.value;
+        var minValue = 30000;
+        var maxValue = 700000;
+
+        if(input >= minValue && input <= maxValue){
+            sWarning.style.visibility = "hidden";
+            
+        }
+        else{
+            sWarning.style.visibility = "visible";
+            button.disabled = true;
+        }
+
+    });
+
+
 </script>
